@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,7 +12,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -59,7 +57,7 @@ public class Items extends JPanel {
 	@SuppressWarnings("unchecked")
 	public void initComponents() { 
 		name = new JTextField(15);
-		description = new JTextArea(3, 15);
+		description = new JTextArea(5, 15);
 		description.setLineWrap(true);
 		SpinnerListModel hotkeyModel = new SpinnerListModel(new Object[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
 		hotkey = new JSpinner(hotkeyModel);
@@ -92,36 +90,39 @@ public class Items extends JPanel {
 		TableColumn skillBoxColumn = skillTable.getColumnModel().getColumn(2);
 		skillBoxColumn.setCellEditor(new DefaultCellEditor(new JComboBox<SkillType>(SkillType.values())));
 		skillBoxColumn.setCellRenderer(new MyComboBoxRenderer(SkillType.values()));
-		bonusAdd = new JButton("Add");
-		bonusRemove = new JButton("Remove");
-		skillAdd = new JButton("Add");
-		skillRemove = new JButton("Remove");
+		bonusAdd = new StandardButton("Add");
+		bonusRemove = new StandardButton("Remove");
+		skillAdd = new StandardButton("Add");
+		skillRemove = new StandardButton("Remove");
 		listItems = new JList[ItemType.values().length];
 		for (int i = 0; i < ItemType.values().length; i++) {
 			listItems[i] = new JList<>();
 		}
 		updateList();
-		copyDescription = new JButton("Copy description");
-		copyBuy = new JButton("Copy buy description");
-		save = new JButton("Save");
-		newItem = new JButton("New item");
-		removeItem = new JButton("Remove item");
+		copyDescription = new StandardButton("Copy description");
+		copyBuy = new StandardButton("Copy buy description");
+		save = new StandardButton("Save");
+		newItem = new StandardButton("New item");
+		removeItem = new StandardButton("Remove item");
 	}
 	
 	private void setLayout() { 
-		JPanel contentPane = new JPanel(new BorderLayout());
 		JPanel pageStart = new JPanel(new GridBagLayout());
+		pageStart.setOpaque(true);
 		JPanel pageCenter = new JPanel(new GridBagLayout());
+		pageCenter.setOpaque(true);
 		JPanel pageEnd = new JPanel(new GridBagLayout());
+		pageEnd.setOpaque(true);
 		JPanel lineEnd = new JPanel();
+		lineEnd.setOpaque(true);
 		//---------------------------------------------------
 		GridBagConstraints c;
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 1.0;
 		c.gridwidth = 2;
-		c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
 		pageStart.add(new JLabel("Name:"), c);
 		c.gridy++;
 		pageStart.add(name, c);
@@ -149,6 +150,7 @@ public class Items extends JPanel {
 		bonusScroll.setPreferredSize(new Dimension(300, 100));
 		pageCenter.add(bonusScroll, c);
 		JPanel bonusButtons = new JPanel();
+		bonusButtons.setOpaque(true);
 		bonusButtons.add(bonusAdd);
 		bonusButtons.add(bonusRemove);
 		c.gridy++;
@@ -160,6 +162,7 @@ public class Items extends JPanel {
 		c.gridy++;
 		pageCenter.add(skillsScroll, c);
 		JPanel skillsButtons = new JPanel();
+		skillsButtons.setOpaque(true);
 		skillsButtons.add(skillAdd);
 		skillsButtons.add(skillRemove);
 		c.gridy++;
@@ -169,6 +172,8 @@ public class Items extends JPanel {
 		pageEnd.add(new JLabel("Items:"), c);
 		c.gridy++;
 		tabbedList = new JTabbedPane();
+		tabbedList.setUI(new PPTTabbedPaneUI());
+		tabbedList.setOpaque(false);
 		for (ItemType type : ItemType.values()) {
 			tabbedList.addTab(type.toString(), listItems[type.ordinal()]);
 		}
@@ -177,20 +182,29 @@ public class Items extends JPanel {
 		pageEnd.add(tabbedScroll, c);
 		c.gridy++;
 		JPanel buttonsList = new JPanel();
+		buttonsList.setOpaque(true);
 		buttonsList.add(newItem);
 		buttonsList.add(removeItem);
 		pageEnd.add(buttonsList, c);
 		//---------------------------------
-		contentPane.add(pageStart, BorderLayout.LINE_START);
-		contentPane.add(pageCenter, BorderLayout.CENTER);
-		contentPane.add(pageEnd, BorderLayout.LINE_END);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.NORTH;
+		add(pageStart, c);
+		c.gridx++;
+		add(pageCenter, c);
+		c.gridx++;
+		add(pageEnd, c);
 		lineEnd.add(copyDescription);
 		lineEnd.add(copyBuy);
 		lineEnd.add(save);
-		contentPane.add(lineEnd, BorderLayout.PAGE_END);
-		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-		setLayout(layout);
-		add(contentPane);
+		c.gridx = 0;
+		c.gridy++;
+		c.gridwidth = 3;
+		c.fill = GridBagConstraints.BOTH;
+		add(lineEnd, c);
+		setOpaque(true);
 	}
 	
 	private void setListeners() { 
@@ -310,7 +324,7 @@ public class Items extends JPanel {
 	}
 	
 	public Items() { 
-		super();
+		super(new GridBagLayout());
 		initComponents();
 		setLayout();
 		setListeners();

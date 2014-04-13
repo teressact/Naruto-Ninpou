@@ -33,7 +33,7 @@ public enum ItemType implements Serializable {
 		case NINJA_WEAPON:
 			return "|cffff0000Classification: Ninja Weapon|r";
 		case SUPPORT:
-			return "|cffffcc00Classification: Support|r";
+			return "|cffff0000Classification: Support|r";
 		case MISCELLANEOUS:
 			return "|cffff0000Classification: Miscellaneous|r";
 		default:

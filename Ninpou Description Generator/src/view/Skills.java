@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -14,7 +13,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -61,7 +62,7 @@ public class Skills extends JPanel {
 	private void initComponents() { 
 		hero = new JTextField(15);
 		name = new JTextField(15);
-		description = new JTextArea(3, 15);
+		description = new JTextArea(5, 15);
 		description.setLineWrap(true);
 		hotkey = new JComboBox<>(SkillHotkey.values());
 		SpinnerNumberModel baseRangeModel = new SpinnerNumberModel(0, 0, 1200, 10);
@@ -95,25 +96,25 @@ public class Skills extends JPanel {
 		skillList = new JList<>();
 		updateList("");
 		search = new JTextField(15);
-		newSkill = new JButton("New skill");
-		skillRemove = new JButton("Remove skill");
-		generateLearn = new JButton("Generate learn");
-		generateName = new JButton("Generate name");
-		generateDescription = new JButton("Generate description");
-		save = new JButton("Save");
+		newSkill = new StandardButton("New skill");
+		skillRemove = new StandardButton("Remove skill");
+		generateLearn = new StandardButton("Copy learn");
+		generateName = new StandardButton("Copy name");
+		generateDescription = new StandardButton("Copy description");
+		save = new StandardButton("Save");
 	}
 	
 	private void setLayout() { 
-		JPanel contentPane = new JPanel(new BorderLayout());
+		//JPanel contentPane = new JPanel(new GridBagLayout());
 		JPanel pageStart = new JPanel(new GridBagLayout());
 		JPanel pageEnd = new JPanel(new GridBagLayout());
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 1.0;
 		c.gridwidth = 4;
 		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
 		pageStart.add(new JLabel("Hero:"), c);
 		c.gridy++;
 		pageStart.add(hero, c);
@@ -172,7 +173,13 @@ public class Skills extends JPanel {
 		c.gridy = 0;
 		pageEnd.add(new JLabel("Skills:"), c);
 		c.gridy++;
-		pageEnd.add(search, c);
+		JPanel searchPanel = new JPanel();
+		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));
+		ImageIcon searchIcon = new ImageIcon(getClass().getResource("search_icon.png"));
+		JLabel searchIconLabel = new JLabel(searchIcon);
+		searchPanel.add(searchIconLabel);
+		searchPanel.add(search);
+		pageEnd.add(searchPanel, c);
 		c.gridy++;
 		JScrollPane listScroll = new JScrollPane(skillList);
 		listScroll.setPreferredSize(new Dimension(350, 200));
@@ -186,10 +193,20 @@ public class Skills extends JPanel {
 		bottomPanel.add(generateName);
 		bottomPanel.add(generateDescription);
 		bottomPanel.add(save);
-		contentPane.add(pageStart, BorderLayout.LINE_START);
-		contentPane.add(pageEnd, BorderLayout.LINE_END);
-		contentPane.add(bottomPanel, BorderLayout.PAGE_END);
-		add(contentPane);
+		//-----------------------------------
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.NORTH;
+		add(pageStart, c);
+		c.gridx++;
+		add(pageEnd, c);
+		c.gridx = 0;
+		c.gridy++;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(bottomPanel, c);
+		//add(contentPane);
 	}
 	
 	private void initListeners() { 
@@ -292,22 +309,10 @@ public class Skills extends JPanel {
 	}
 	
 	public Skills() { 
-		super();
+		super(new GridBagLayout());
 		initComponents();
 		setLayout();
 		initListeners();
-		/*Skill skill = new Skill();
-		skill.setHero("Uzumaki Naruto");
-		skill.setName("Rasengan");
-		skill.setHotkey(SkillHotkey.Q);
-		skill.setBaseCooldown(13);
-		skill.setCooldownFactor(0.3f);
-		skill.setAreaOfEffect(400);
-		skill.setAoEType(AreaOfEffectType.LINE);
-		skill.getDamageTable().setMultiplier(BonusType.TAIJUTSU);
-		skill.getDamageTable().setDamageFactor(1);
-		loadSkill(skill);
-		newSkill();*/
 	}
 	
 	private Skill getActualSkill() { 

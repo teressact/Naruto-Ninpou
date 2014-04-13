@@ -18,8 +18,9 @@ public class MainScreen extends JFrame {
 	private JPanel skillPane, itemPane, creditPane;
 	
 	public MainScreen() { 
-		super("Ninpou Description Generator - v1.0");
+		super("Ninpou Description Generator - v1.1");
 		tabPane = new JTabbedPane();
+		tabPane.setUI(new PPTTabbedPaneUI());
 		itemPane = new Items();
 		skillPane = new Skills();
 		creditPane = new Credits();

@@ -11,7 +11,7 @@ public class Credits extends JPanel {
 
 	public Credits() { 
 		super(new BorderLayout());
-		JTextArea textArea = new JTextArea("Ninpou Description Generator\nVersion: 1.0\nRelease date: 12.apr.2014\n\nCreated by:\nteressact (teressact@outlook.com)\n\nThis software is licensed by GLP v3.0");
+		JTextArea textArea = new JTextArea("Ninpou Description Generator\nVersion: 1.1\nRelease date: 13.apr.2014\n\nCreated by:\nteressact (teressact@outlook.com)\n\nThis software is licensed by GLP v3.0");
 		textArea.setEditable(false);
 		add(textArea, BorderLayout.CENTER);
 	}
